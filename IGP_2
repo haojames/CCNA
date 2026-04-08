@@ -1,0 +1,98 @@
+1. IGP là gì?
+IGP (Interior Gateway Protocol) là một giao thức định tuyến được sử dụng để trao đổi thông tin định tuyến bên trong một hệ thống tự trị (Autonomous System - AS). Nó giúp các router trong cùng một mạng học các tuyến đường và xây dựng bảng định tuyến để chuyển tiếp gói tin.
+
+2. Các giao thức IGP phổ biến
+RIP (Routing Information Protocol):
+
+Sử dụng thuật toán định tuyến khoảng cách (Distance Vector).
+Giới hạn hop count là 15.
+Thích hợp cho mạng nhỏ, không hiệu quả trong mạng lớn.
+OSPF (Open Shortest Path First):
+
+Sử dụng thuật toán trạng thái liên kết (Link-State).
+Hỗ trợ phân vùng mạng qua Areas.
+Tìm đường nhanh, phù hợp với mạng lớn.
+EIGRP (Enhanced Interior Gateway Routing Protocol):
+
+Là giao thức hybrid (kết hợp Distance Vector và Link-State).
+Tìm đường nhanh và hỗ trợ tốt cho mạng trung bình đến lớn.
+IS-IS (Intermediate System to Intermediate System):
+
+Gần giống OSPF, cũng là giao thức Link-State.
+Thường được sử dụng trong mạng viễn thông.
+3. Câu hỏi phỏng vấn về IGP
+a. Câu hỏi cơ bản
+IGP là gì và tại sao cần sử dụng nó?
+
+Trả lời: IGP là giao thức định tuyến nội bộ trong một Autonomous System. Nó cần thiết để các router trao đổi thông tin định tuyến và đảm bảo kết nối nội bộ.
+Sự khác biệt giữa IGP và EGP (Exterior Gateway Protocol)?
+
+Trả lời:
+IGP hoạt động bên trong một AS, ví dụ: RIP, OSPF, EIGRP.
+EGP hoạt động giữa các AS, ví dụ: BGP.
+Các loại IGP phổ biến là gì?
+
+Trả lời: RIP, OSPF, EIGRP, IS-IS.
+IGP sử dụng các thuật toán định tuyến nào?
+
+Trả lời:
+Distance Vector: RIP.
+Link-State: OSPF, IS-IS.
+Hybrid: EIGRP.
+b. Câu hỏi nâng cao
+Sự khác biệt giữa RIP, OSPF, và EIGRP là gì?
+
+Trả lời:
+RIP: Dễ cấu hình, giới hạn 15 hops, không phù hợp mạng lớn.
+OSPF: Tìm đường tối ưu, sử dụng thuật toán Dijkstra, phù hợp mạng lớn.
+EIGRP: Kết hợp ưu điểm của Distance Vector và Link-State, nhanh, dễ quản lý.
+Điểm mạnh và điểm yếu của OSPF?
+
+Trả lời:
+Điểm mạnh: Tìm đường tối ưu, hỗ trợ mạng lớn, phân vùng mạng qua Areas.
+Điểm yếu: Cấu hình phức tạp hơn RIP.
+EIGRP có phải là IGP không?
+
+Trả lời: Có, EIGRP là một IGP, sử dụng thuật toán DUAL để tìm đường.
+Khi nào sử dụng IS-IS thay vì OSPF?
+
+Trả lời: IS-IS thường được sử dụng trong mạng viễn thông hoặc các mạng lớn cần giao thức nhẹ hơn OSPF.
+c. Câu hỏi xử lý sự cố
+Nếu router không học được route từ giao thức IGP, bạn sẽ kiểm tra gì?
+
+Trả lời:
+Kiểm tra trạng thái giao thức định tuyến (ví dụ: show ip ospf neighbor).
+Kiểm tra kết nối vật lý giữa các router.
+Đảm bảo các tham số định tuyến (network statement, area ID) cấu hình chính xác.
+IGP nào nên sử dụng cho mạng lớn, phức tạp?
+
+Trả lời: OSPF hoặc IS-IS.
+Làm sao để tránh routing loop trong IGP?
+
+Trả lời: Sử dụng các cơ chế:
+Split horizon.
+Route poisoning.
+Hold-down timers.
+d. Câu hỏi thực hành
+Hãy cấu hình OSPF trên một router Cisco.
+
+Trả lời:
+plaintext
+Copy code
+Router(config)# router ospf 1
+Router(config-router)# network 10.0.0.0 0.0.0.255 area 0
+Cách kiểm tra thông tin định tuyến của RIP.
+
+Trả lời:
+plaintext
+Copy code
+show ip route
+Cách kiểm tra trạng thái neighbor trong EIGRP.
+
+Trả lời:
+plaintext
+Copy code
+show ip eigrp neighbors
+Hãy giải thích lệnh passive-interface trong IGP.
+
+Trả lời: Lệnh này ngăn router gửi gói tin định tuyến qua một interface, nhưng vẫn học các route từ interface đó.
