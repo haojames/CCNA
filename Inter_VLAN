@@ -1,0 +1,96 @@
+nter-VLAN Routing (Định tuyến liên VLAN) là kỹ thuật cho phép các thiết bị ở các VLAN khác nhau giao tiếp được với nhau.
+
+Vì mặc định, các VLAN cách ly hoàn toàn (máy VLAN 10 không thể gửi dữ liệu trực tiếp sang máy VLAN 20). Inter-VLAN Routing chính là "cây cầu" bắc qua sự cách ly đó.
+
+1. Tại sao cần Inter-VLAN Routing?
+Nhu cầu	Giải thích
+Máy in dùng chung	Máy in ở VLAN 20, nhưng nhân viên kế toán ở VLAN 10 vẫn muốn in → cần Inter-VLAN.
+Máy chủ nội bộ	File server đặt trong VLAN 30 (Server), các VLAN khác cần truy cập.
+Người dùng linh hoạt	Nhân viên kỹ thuật ở VLAN 20 muốn gửi báo cáo cho phòng nhân sự ở VLAN 40.
+2. Ba phương pháp Inter-VLAN Routing
+🔹 Phương pháp 1: Router-on-a-stick (Phổ biến nhất trong lab, mạng nhỏ)
+Cách hoạt động:
+
+Dùng 1 cổng vật lý duy nhất trên router.
+
+Cổng đó kết nối Trunk xuống switch.
+
+Trên router, tạo sub-interface cho mỗi VLAN (gắn địa chỉ IP và VLAN ID).
+
+Ví dụ cấu hình Cisco:
+
+text
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+Ưu điểm: Tiết kiệm cổng vật lý trên router.
+Nhược điểm: Router có thể trở thành điểm nghẽn (tắc nghẽn) nếu lưu lượng lớn.
+
+🔹 Phương pháp 2: Layer 3 Switch (Phổ biến trong doanh nghiệp, mạng lớn)
+Cách hoạt động:
+
+Switch có khả năng định tuyến (Layer 3 switch).
+
+Tạo SVI (Switch Virtual Interface) cho mỗi VLAN.
+
+SVI chính là "cổng ảo" có địa chỉ IP và hoạt động như router.
+
+Ví dụ cấu hình Cisco:
+
+text
+ip routing   (bật chức năng định tuyến trên switch)
+!
+interface Vlan10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface Vlan20
+ ip address 192.168.20.1 255.255.255.0
+Ưu điểm: Tốc độ cao (hardware routing), không có điểm nghẽn.
+Nhược điểm: Switch Layer 3 đắt hơn switch Layer 2 thường.
+
+🔹 Phương pháp 3: Router vật lý nhiều cổng (Cũ, ít dùng)
+Mỗi cổng router kết nối Access port của một VLAN riêng.
+
+Mỗi VLAN có một cổng vật lý riêng trên router.
+
+Nhược điểm: Tốn cổng router, không mở rộng được (chỉ vài VLAN).
+
+3. So sánh nhanh 3 phương pháp
+Tiêu chí	Router-on-a-stick	Layer 3 Switch	Router nhiều cổng
+Tốc độ	Trung bình (software routing)	Rất nhanh (hardware routing)	Trung bình
+Chi phí	Thấp (chỉ cần 1 cổng router)	Cao (switch Layer 3 đắt)	Trung bình (cần router nhiều cổng)
+Mở rộng	Tốt (thêm sub-interface)	Rất tốt (thêm SVI)	Kém (hết cổng vật lý)
+Dùng trong	Lab, mạng nhỏ (vài chục VLAN)	Doanh nghiệp, mạng lớn (hàng trăm VLAN)	Hầu như không dùng nữa
+4. Ví dụ thực tế (hình dung)
+Công ty có 2 VLAN:
+
+VLAN 10 (Kế toán): IP 192.168.10.0/24
+
+VLAN 20 (Kỹ thuật): IP 192.168.20.0/24
+
+Máy kế toán (192.168.10.10) muốn gửi file đến máy kỹ thuật (192.168.20.20):
+
+Máy kế toán nhận ra đích ở khác mạng (10.x khác 20.x).
+
+Nó gửi gói tin đến default gateway (ví dụ 192.168.10.1).
+
+Gateway đó chính là router (hoặc Layer 3 switch) – thiết bị làm Inter-VLAN.
+
+Router nhìn thấy đích 192.168.20.20, tra bảng định tuyến, biết nó thuộc VLAN 20.
+
+Router chuyển gói tin ra cổng (sub-interface hoặc SVI) tương ứng VLAN 20.
+
+Máy kỹ thuật nhận được gói tin → hoàn tất giao tiếp liên VLAN.
+
+5. Lưu ý quan trọng
+Vấn đề	Giải pháp
+Mỗi VLAN cần một subnet riêng	Không được dùng chung subnet giữa 2 VLAN (VD: cả 2 dùng 192.168.1.x/24 là sai)
+Switch port nối router phải là Trunk	Khi dùng router-on-a-stick, cổng switch nối router phải ở chế độ trunk
+Bật tính năng định tuyến	Trên Layer 3 switch phải gõ ip routing (mặc định tắt)
+🎯 Tóm gọn trong 1 câu:
+Inter-VLAN Routing là "cây cầu nối các VLAN" – cho phép máy ở VLAN này nói chuyện được với máy ở VLAN khác, thường thực hiện qua router (router-on-a-stick) hoặc Layer 3 switch (SVI).
+
