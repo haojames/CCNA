@@ -1,115 +1,99 @@
-🔹 STEP 1: NỀN TẢNG ĐỊNH TUYẾN
-Khái niệm Định tuyến là gì? (Router hoạt động ra sao)
+1. Mô hình OSI & TCP/IP
+OSI có bao nhiêu tầng? Kể tên theo thứ tự từ dưới lên.
 
-Bảng định tuyến (Routing Table) – cách nó được xây dựng
+Tầng nào xử lý địa chỉ IP? Tầng nào xử lý địa chỉ MAC?
 
-Static Route (định tuyến tĩnh) – cấu hình, ưu/nhược điểm
+Sự khác nhau giữa TCP và UDP? Cho ví dụ từng loại.
 
-Default Route (0.0.0.0/0) – dùng khi nào?
+Chức năng của tầng Transport.
 
-Floating Static Route – kỹ thuật dự phòng với AD lớn hơn
+3-way handshake của TCP diễn ra thế nào?
 
-Administrative Distance (AD) – thang đo độ tin cậy giữa các giao thức
+Port nào dùng cho HTTP, HTTPS, SSH, DNS, DHCP?
 
-🔹 STEP 2: GIAO THỨC ĐỘNG (TỔNG QUAN)
-Dynamic Routing – khái niệm, lợi ích so với static
+2. Địa chỉ IP & Subnetting
+Sự khác nhau giữa IPv4 và IPv6.
 
-Distance Vector vs Link State – nguyên lý hoạt động khác nhau
+Địa chỉ private IPv4 là dải nào? (Class A, B, C)
 
-Các thuật toán: Bellman-Ford (RIP), Dijkstra (OSPF/IS-IS), DUAL (EIGRP)
+Subnet mask là gì? Cách tính số host trong một subnet.
 
-Contiguous Network – điều kiện để tóm tắt route
+Cách tính network address, broadcast address.
 
-Route Summarization – gộp nhiều route nhỏ thành route lớn
+VLSM là gì? Dùng khi nào?
 
-🔹 STEP 3: RIP (Dễ nhất, làm quen)
-RIP v1 vs v2 (classful/classless, VLSM)
+IPv6 có bao nhiêu bit? Viết tắt địa chỉ IPv6 như thế nào?
 
-Hop count metric (tối đa 15)
+Các loại địa chỉ IPv6: unicast, multicast, anycast.
 
-Cập nhật định kỳ 30s – vấn đề hội tụ chậm
+3. Switching (Switch & VLAN)
+Collision domain và broadcast domain khác nhau thế nào?
 
-Cấu hình cơ bản router rip / network
+Switch khác hub ở điểm nào?
 
-🔹 STEP 4: EIGRP (Advanced Distance Vector)
-Cách hoạt động của EIGRP (Hello, Update, Query, Reply, ACK)
+VLAN là gì? Lợi ích của VLAN.
 
-3 bảng: Neighbor / Topology / Routing
+Trunk là gì? Giao thức 802.1Q.
 
-Feasible Successor (FS) & Feasibility Condition (FC)
+DTP là gì? Có nên bật không?
 
-Composite metric (Bandwidth + Delay + ...)
+STP (Spanning Tree Protocol) để làm gì? Giải thích cách chọn Root Bridge.
 
-Không có khái niệm area (nhưng có thể tóm tắt thủ công)
+VTP là gì? Các chế độ Server, Client, Transparent.
 
-Hội tụ cực nhanh (dưới 1s nếu có FS)
+4. Routing (Định tuyến)
+Sự khác nhau giữa Router và Layer 3 Switch.
 
-Cấu hình cơ bản: router eigrp AS_number / network
+Định tuyến tĩnh (static route) và định tuyến động (dynamic routing).
 
-🔹 STEP 5: OSPF (Link State – Quan trọng nhất)
-5.1 – Cơ bản
-Cách hoạt động của OSPF (Hello, DD, LSR, LSU, LSAck)
+Default route dùng khi nào?
 
-DR/BDR (bầu chọn trên mạng broadcast)
+Administrative Distance (AD) là gì? Ví dụ AD của connected, static, OSPF, EIGRP.
 
-3 bảng: Neighbor / LSDB (Link State Database) / Routing
+OSPF: Đặc điểm, metric, area, DR/BDR là gì?
 
-Metric = Cost (mặc định 10⁸ / bandwidth)
+EIGRP: Có gì khác OSPF? Feasible Distance, Successor.
 
-Các trạng thái adjacency (Down → Init → 2-Way → Exstart → Exchange → Loading → Full)
+Các loại route trong bảng định tuyến: C, S, O, D, etc.
 
-5.2 – Nâng cao (Phân vùng - Area)
-Khái niệm Area (vùng) – tại sao cần chia area
+5. Giao thức lớp Application & dịch vụ
+DNS dùng để làm gì? Phân giải tên như thế nào?
 
-Area 0 (Backbone) – bắt buộc phải có
+DHCP hoạt động thế nào? DORA là gì?
 
-ABR (Area Border Router) – nối Area 0 với area khác
+ARP là gì? Khi nào switch/router gửi ARP Request?
 
-ASBR (AS Boundary Router) – nối OSPF ra bên ngoài (route tĩnh, giao thức khác)
+NAT là gì? Static NAT, Dynamic NAT, PAT khác nhau ra sao?
 
-Các loại LSA cơ bản:
+NTP dùng để làm gì?
 
-Type 1 (Router LSA)
+6. Bảo mật cơ bản
+Access Control List (ACL) – Standard vs Extended.
 
-Type 2 (Network LSA)
+SSH khác Telnet ở điểm nào? Nên dùng cái nào?
 
-Type 3 (Summary LSA) – do ABR phát
+Port Security trên switch: Cấu hình và mục đích.
 
-Type 5 (External LSA) – do ASBR phát
+DHCP Snooping, ARP Inspection là gì? (Khái niệm cơ bản)
 
-Cấu hình OSPF multi-area
+AAA là gì?
 
-5.3 – Các loại area đặc biệt
-Stub area
+7. Quản lý thiết bị Cisco
+Các chế độ CLI: User EXEC, Privileged EXEC, Global config, Interface config.
 
-Totally Stubby area
+Cách lưu cấu hình: copy running-config startup-config
 
-NSSA (Not-So-Stubby Area) – cho phép ASBR nằm trong area đặc biệt (Type 7 LSA)
+Cách khôi phục mật khẩu Cisco router/switch.
 
-🔹 STEP 6: IS-IS (Link State nhưng khác OSPF)
-Chạy trực tiếp trên Layer 2 (không dùng IP)
+CDP và LLDP dùng để làm gì?
 
-Level 1 (trong vùng) / Level 2 (giữa vùng) / Level 1-2
+8. WAN & Kết nối môi trường doanh nghiệp
+Sự khác nhau giữa leased line, MPLS, VPN.
 
-Dùng phổ biến trong mạng ISP, viễn thông
+GRE tunnel là gì?
 
-So sánh nhanh OSPF vs IS-IS (nếu cần)
+PPP và HDLC khác nhau thế nào?
 
-🔹 STEP 7: SO SÁNH TỔNG HỢP
-Bảng so sánh RIP – EIGRP – OSPF – IS-IS
+PPPoE dùng ở đâu?
 
-Bảng so sánh OSPF vs EIGRP chi tiết
-
-Khi nào dùng giao thức nào?
-
-🔹 STEP 8: THỰC HÀNH & MÔ PHỎNG
-Cấu hình trên Cisco Packet Tracer hoặc GNS3/EVE-NG
-
-Kiểm tra lệnh: show ip route, show ip ospf neighbor, show ip eigrp topology, show ip protocols
-
-Debug lỗi cơ bản: mismatched area, hello/dead interval, authentication
-
-Lab tóm tắt route (summary) trên ABR (OSPF) hoặc bất kỳ router (EIGRP)
-
-Lab tái phân phối (redistribution) giữa OSPF và EIGRP (có ASBR)
-
+Cáp quang: Singlemode (SMF) vs Multimode (MMF).
